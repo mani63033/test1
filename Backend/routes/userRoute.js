@@ -1,6 +1,7 @@
 const express = require('express');
 
 const controller = require('../controllers/userControllers');
+const user = require('../models/users');
 
 const userRouter = express.Router();
 
@@ -19,6 +20,8 @@ userRouter.put('/:id', (req, res) => {
 userRouter.delete('/:id', (req, res) => {
     controller.deleteUser(req, res);
 });
-
+userRouter.get('/login', (req, res) => {
+    controller.loginUser(req, res);
+});
 
 module.exports = userRouter;

@@ -1,6 +1,8 @@
 const User = require('../models/users.js');
 const bcrypt = require('bcrypt');
 const validate = require('../validations/commonValidations.js');
+const jwt = require('jsonwebtoken');
+
 
 async function getAllUsers(req, res) {
     try {
@@ -102,9 +104,37 @@ async function deleteUser(req, res) {
     }
 }
 
+
+async function loginUser(req, res) {
+  try {
+    const user = await User.findOne({ email: req.body.email });
+    if (!user) {
+      return res.status(404).json({ msg: 'User not found' });
+    }
+    const validPassword = await bcrypt.compare(req.body.password, user.password);
+    if (!validPassword) {
+      return res.status(400).json({ msg: 'Invalid password' });
+    }
+
+    // Set the SECRET_KEY environment variable
+    process.env.SECRET_KEY = 'saikirNani@123';
+
+    // Generate a token
+    const token = jwt.sign({ userId: user._id, email: user.email }, process.env.SECRET_KEY, {
+      expiresIn: '1h' // expires in 1 hour
+    });
+
+    res.status(200).json({ token, user });
+  } catch (err) {
+    console.error('Error in login controller:', err);
+    res.status(500).send('Internal server error');
+  }
+}
+
 module.exports = {
     getAllUsers,
     postUser,
     updateUser,
-    deleteUser
+    deleteUser,
+    loginUser
 };

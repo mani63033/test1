@@ -9,11 +9,11 @@ const userSchema = new connection.Schema({
         type: String,
         required: true
     },
-    password : {
+    password: {
         type: String,
         required: true
     },
-    phone : {
+    phone: {
         type: Number,
         required: true
     },

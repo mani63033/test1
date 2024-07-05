@@ -1,0 +1,79 @@
+*{
+    margin: 0px;
+    padding: 0px;
+}
+.Top{
+    width: 100%;
+    background-color: black;
+    height: 70px;
+}
+.Container{
+    display: flex;
+    justify-content: space-around;
+    color: white;
+    padding: 20px 0px;
+}
+.Main2{
+    margin-left: 300px;
+}
+.Link1{
+    text-decoration: none;
+    color: white;
+    margin-right: 10px;
+}
+.Link1:hover{
+    color: blue;
+}
+.Main3{
+    margin-left: -300px;
+    background-color: grey;
+    border-radius: 50%;
+    height:30px;
+    width: 30px;
+}
+.Link2{
+    display: none;
+    text-decoration: none;
+    color:black;
+    background-color: white;    
+    width: 70px;
+    border: 1px solid black;
+    padding: 5px 5px;
+}
+.Main3:hover .Link2{
+    display: block;
+    position: relative;
+    top:15px;
+    right: 60px;
+}
+/* Media Queries for Responsiveness */
+@media (max-width: 1200px) {
+   .Top{
+    width: 100%;
+   }
+   .Main2{
+    margin-left: 100px;
+   }
+}
+
+@media (max-width: 992px) {
+    .Main2{
+        margin-left: 50px;
+       }
+       .Main3{
+        margin-right: -70px;
+       }
+      
+}
+
+@media (max-width: 768px) {
+    .Main2{
+        margin-right: 100px;
+    }
+}
+
+@media (max-width: 576px) {
+    .Main2{
+        margin-right: 130px;
+    }
+}

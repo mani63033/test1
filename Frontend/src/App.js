@@ -11,7 +11,7 @@ const App = () => {
     <BrowserRouter>
     <NavBar/>
     <Routes>
-      <Route path="/Home" element={<Home/>} />
+      <Route path="/" element={<Home/>} />
       <Route path="/BuyArts" element={<BuyArts/>} />
       <Route path="/Login" element={<Login/>} />
       <Route path="/profile" element={<Profile/>} />

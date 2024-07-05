@@ -10,7 +10,7 @@ function NavBar(){
         <h3>Hey..</h3>
       </div>
       <div className="Main2">
-          <Link to="/Home" className="Link1">Home</Link>
+          <Link to="/" className="Link1">Home</Link>
           <Link to="/BuyArts" className="Link1">BuyArts</Link>
           <Link to="/Login" className="Link1">Login</Link>
       </div>

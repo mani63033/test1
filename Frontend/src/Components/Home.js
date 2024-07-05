@@ -4,6 +4,7 @@ import NavBar from "./Nav";
 import "./Home.css";
 import img from "../assests/Art.jpg";
 import { Link } from "react-router-dom";
+import BuyArts from "./BuyArts";
 const Home=()=>
     {
        return( 

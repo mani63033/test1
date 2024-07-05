@@ -1,6 +1,7 @@
 const productModal = require('../models/product');
 
 
+
 async function getProducts(req, res) {
     try {
         const products = await productModal.find({});
@@ -11,17 +12,29 @@ async function getProducts(req, res) {
     }
 }
 
+
 async function postProduct(req, res) {
     try {
-        const product = new productModal(req.body);
-        await product.save();
-        res.status(201).json(product);
-    } catch (err) {
-        console.error('Error in postProduct controller:', err);
-        res.status(500).send('Internal server error');
-    }
+        const products = new productModal({
+            name: req.body.name,
+            description: req.body.description,
+            size: req.body.size,
+            price: req.body.price,
+            Discount: req.body.Discount,
+            Aboutart: req.body.Aboutart,
+            Paintingdescription: req.body.Paintingdescription,
+            Termsandcondition: req.body.Termsandcondition,
+            image: `/uploads/${req.file.filename}`,
+            user: req.body.user
+         
+        });
+        await products.save();
+        res.status(201).json(products);
+      } catch (err) {
+        console.error(err);
+        res.status(500).send('Error creating image');
+      }
 }
-
 
 async function updateProduct(req, res) {
     try {

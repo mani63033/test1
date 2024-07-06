@@ -2,16 +2,17 @@ const productModal = require('../models/product');
 
 
 
+
 async function getProducts(req, res) {
     try {
-        const products = await productModal.find({});
+        const products = await productModal.find();
         res.status(200).json(products);
-    } catch (err) {
+    }
+    catch (err) {
         console.error('Error in getProducts controller:', err);
         res.status(500).send('Internal server error');
     }
 }
-
 
 async function postProduct(req, res) {
     try {
@@ -24,7 +25,7 @@ async function postProduct(req, res) {
             Aboutart: req.body.Aboutart,
             Paintingdescription: req.body.Paintingdescription,
             Termsandcondition: req.body.Termsandcondition,
-            image: `/uploads/${req.file.filename}`,
+            image: `/uploads/products/${req.file.filename}`,
             user: req.body.user
          
         });

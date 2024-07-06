@@ -2,6 +2,7 @@ const express = require('express');
 
 const controller = require('../controllers/userControllers');
 const user = require('../models/users');
+const authenticateToken = require('../authenticateToken');
 
 const userRouter = express.Router();
 
@@ -13,11 +14,11 @@ userRouter.post('/', (req, res) => {
     controller.postUser(req, res);
 });
 
-userRouter.put('/:id', (req, res) => {
+userRouter.put('/:id',authenticateToken, (req, res) => {
     controller.updateUser(req, res);
 });
 
-userRouter.delete('/:id', (req, res) => {
+userRouter.delete('/:id',authenticateToken, (req, res) => {
     controller.deleteUser(req, res);
 });
 userRouter.get('/login', (req, res) => {

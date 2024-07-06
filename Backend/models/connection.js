@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
+require('dotenv').config();
 
-const uri = 'mongodb+srv://uppalapatisaikiran27:20A25B0318@scutiarts.rifwbjg.mongodb.net/?retryWrites=true&w=majority&appName=scutiarts';
+const uri="mongodb+srv://uppalapatisaikiran27:20A25B0318@scutiarts.rifwbjg.mongodb.net/?retryWrites=true&w=majority&appName=scutiarts"
 
 async function run() {
   try {

@@ -1,0 +1,16 @@
+.pro{
+    background-color: grey;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin: 150px 350px;
+    padding: 20px 20px;
+    width: 600px;
+}
+.profileimage img{
+    border-radius: 50%;
+}
+.profiledata h3
+{
+    font-size: 20px;
+}

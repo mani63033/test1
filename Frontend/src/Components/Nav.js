@@ -4,7 +4,7 @@ import "./Nav.css";
 function NavBar(){
   return(
     <>
-    <div className="Top">
+    <div className="Top w-full">
     <div className="Container">
       <div className="Main1">
         <h3>Hey..</h3>

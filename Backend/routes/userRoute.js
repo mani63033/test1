@@ -14,7 +14,7 @@ userRouter.get('/:email',authenticateToken, (req, res) => {
     controller.getUser(req, res);
 });
 
-userRouter.post('/',authenticateToken, (req, res) => {
+userRouter.post('/', (req, res) => {
     controller.postUser(req, res);
 });
 

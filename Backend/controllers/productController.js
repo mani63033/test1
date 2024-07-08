@@ -2,6 +2,22 @@ const productModal = require('../models/product');
 const fs = require('fs');
 const path = require('path');
 
+const dirpath = "C:\\Users\\uppal\\OneDrive\\Desktop\\scutiades\\test1\\Backend";
+
+async function deleteFile(filePath) {
+    try {
+      await fs.unlink(filePath);
+      console.log(`File deleted successfully: ${filePath}`);
+      return true;
+    } catch (err) {
+      console.error(`Error deleting file: ${err}`);
+      return false;
+    }
+  }
+
+
+
+
 async function getProducts(req, res) {
     try {
         const products = await productModal.find();
@@ -47,14 +63,16 @@ async function updateProduct(req, res) {
         }
         // If there's a new image, handle the old image deletion and update with the new one
         if (req.file) {
-            const oldImagePath = path.join(__dirname, '../uploads/products', product.image);
+            const oldImagePath = path.join( dirpath, product.image);
+            console.log(oldImagePath);
 
-            // Delete the old image file
-            fs.unlink(oldImagePath, (err) => {
-                if (err) {
-                    console.error('Error deleting old image:', err);
+            deleteFile(oldImagePath).then(result => {
+                if (result) {
+                  console.log('File deletion was successful');
+                } else {
+                  console.log('File deletion failed');
                 }
-            });
+              });
 
             // Update the product data with the new image path
             productData.image = `/uploads/products/${req.file.filename}`;
@@ -78,13 +96,9 @@ async function deleteProduct(req, res) {
       }
   
       // Delete the image file from the file system
-      const imagePath = path.join(__dirname, product.image);
-      fs.unlink(imagePath, (err) => {
-        if (err) {
-          console.error('Error deleting image:', err);
-        }
-      });
-  
+      const imagePath = path.join(dirpath, product.image);
+      const x = deleteFile(imagePath);
+        console.log(x);
       // Delete the product from the database
       await productModal.findByIdAndDelete(req.params.id);
   

@@ -6,11 +6,16 @@ const authenticateToken = require('../authenticateToken');
 
 const userRouter = express.Router();
 
-userRouter.get('/', (req, res) => {
+userRouter.get('/',authenticateToken, (req, res) => {
     controller.getAllUsers(req, res);
 });
 
-userRouter.post('/', (req, res) => {
+userRouter.get('/:email',authenticateToken, (req, res) => {
+    controller.getUser(req, res);
+});
+
+
+userRouter.post('/',authenticateToken, (req, res) => {
     controller.postUser(req, res);
 });
 

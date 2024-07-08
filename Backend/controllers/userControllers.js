@@ -14,6 +14,19 @@ async function getAllUsers(req, res) {
     }
 }
 
+async function getUser(req, res) {
+    try {
+        const user = await User.findOne({ email: req.params.email });
+        if (!user) {
+            return res.status(404).send('User not found');
+        }
+        res.status(200).json(user);
+    } catch (err) { 
+        console.error('Error in getUser controller:', err);
+        res.status(500).send('Internal server error');
+    }
+}
+
 
 async function postUser(req, res) {
   try {
@@ -133,6 +146,7 @@ async function loginUser(req, res) {
 
 module.exports = {
     getAllUsers,
+    getUser,
     postUser,
     updateUser,
     deleteUser,

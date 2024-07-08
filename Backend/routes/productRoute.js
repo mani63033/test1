@@ -23,7 +23,7 @@ productRouter.post('/',authenticateToken, upload.single('image'), async (req, re
     productController.postProduct(req, res);
 });
 
-productRouter.put('/:id', (req, res) => {
+productRouter.put('/:id',upload.single('image'), async (req, res) => {
     productController.updateProduct(req, res);
 });
 

@@ -36,17 +36,15 @@ async function postProduct(req, res) {
       }
 }
 
+
 async function updateProduct(req, res) {
     try {
         const { id } = req.params;
-        const productData = req.body;
-
-        // Find the product by ID
+        const productData = req.body;        
         const product = await productModal.findById(id);
         if (!product) {
             return res.status(404).send('Product not found');
         }
-
         // If there's a new image, handle the old image deletion and update with the new one
         if (req.file) {
             const oldImagePath = path.join(__dirname, '../uploads/products', product.image);
@@ -59,7 +57,7 @@ async function updateProduct(req, res) {
             });
 
             // Update the product data with the new image path
-            productData.image = req.file.filename;
+            productData.image = `/uploads/products/${req.file.filename}`;
         }
 
         // Update the product with new data
@@ -74,17 +72,28 @@ async function updateProduct(req, res) {
 
 async function deleteProduct(req, res) {
     try {
-        const product = await productModal.findByIdAndDelete(req.params.id);
-        if (!product) {
-            return res.status(404).send('Product not found');
+      const product = await productModal.findById(req.params.id);
+      if (!product) {
+        return res.status(404).send('Product not found');
+      }
+  
+      // Delete the image file from the file system
+      const imagePath = path.join(__dirname, product.image);
+      fs.unlink(imagePath, (err) => {
+        if (err) {
+          console.error('Error deleting image:', err);
         }
-        res.status(200).json(product);
+      });
+  
+      // Delete the product from the database
+      await productModal.findByIdAndDelete(req.params.id);
+  
+      res.status(200).json({ message: 'Product deleted successfully' });
+    } catch (err) {
+      console.error('Error in deleteProduct controller:', err);
+      res.status(500).send('Internal server error');
     }
-    catch (err) {
-        console.error('Error in deleteProduct controller:', err);
-        res.status(500).send('Internal server error');
-    }
-}
+  }
 
 module.exports = {
     getProducts,

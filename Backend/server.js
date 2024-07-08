@@ -4,7 +4,6 @@ const cors = require('cors');
 const path = require('path');
 
 const app = express();
-//saikiran
 app.use(cors({
   origin: '*',
   credentials: true

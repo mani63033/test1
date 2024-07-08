@@ -14,7 +14,6 @@ userRouter.get('/:email',authenticateToken, (req, res) => {
     controller.getUser(req, res);
 });
 
-
 userRouter.post('/',authenticateToken, (req, res) => {
     controller.postUser(req, res);
 });
@@ -26,6 +25,7 @@ userRouter.put('/:id',authenticateToken, (req, res) => {
 userRouter.delete('/:id',authenticateToken, (req, res) => {
     controller.deleteUser(req, res);
 });
+
 userRouter.get('/login', (req, res) => {
     controller.loginUser(req, res);
 });

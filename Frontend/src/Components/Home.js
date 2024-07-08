@@ -13,7 +13,7 @@ const Home=()=>
             <img src={img} alt="Error" className="Image" />
            </div>
            <div className="BuyNow">
-                <h2 className="text-xl">Every Canvas Is A journey<br/> All Its Own</h2>
+               <b> <h2 className="text-xl">Every Canvas Is A journey</h2><h2> All Its Own</h2></b>
                 <Link to="/BuyArts"><button className="btn bg-white text-red-600">Buy Arts</button></Link>
            </div>
    

@@ -2,10 +2,6 @@ import React from "react";
 import {Link} from  "react-router-dom";
 import "./Nav.css";
 function NavBar(){
-  const Logout=()=>
-  {
-    let
-  }
   return(
     <>
     <div className="Top w-full">
@@ -20,7 +16,7 @@ function NavBar(){
       </div>
       <div className="Main3">
           <Link to="/profile" className="Link2">Profile</Link>
-          <Link to="/Logout" className="Link2"><button onClick={Logout}>Logout</button></Link>
+          <Link to="/Logout" className="Link2">LogOut</Link>
       </div>
 
     </div>

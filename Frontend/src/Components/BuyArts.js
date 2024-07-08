@@ -24,7 +24,7 @@ const BuyArts = () => {
     }
     get();
   }, []);
-
+   
   return (
     <>
     <div id="buyarts">
@@ -32,7 +32,7 @@ const BuyArts = () => {
         <div className="card" style={{ width: "18rem",height:"500px" }} key={item.id}>
           <img
             className="card-img-top"
-            src={images.image[index]}
+            src={`http://localhost:8001${item.image}`}
             alt="Card image cap" style={{height:"300px"}}/>
           <div className="card-body c-body">
             <h5 className="card-title">{item.name}</h5>

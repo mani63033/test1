@@ -20,9 +20,6 @@ async function deleteFile(oldImagePath) {
 
   }
 
-
-
-
 async function getProducts(req, res) {
     try {
         const products = await productModal.find();

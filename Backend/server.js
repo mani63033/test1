@@ -18,10 +18,12 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 const userRouter = require('./routes/userRoute.js');
 const productRouter = require('./routes/productRoute.js');
 const loginRouter = require('./routes/loginRoute.js');
+const adminRouter = require('./routes/adminRoute.js');
 
 app.use('/user', userRouter);
 app.use('/login', loginRouter);
 app.use('/product', productRouter);
+app.use('/admin', adminRouter);
 
 // Function to get the local IP address
 function getLocalIPAddress() {

@@ -4,15 +4,20 @@ const path = require('path');
 
 const dirpath = "C:\\Users\\uppal\\OneDrive\\Desktop\\scutiades\\test1\\Backend";
 
-async function deleteFile(filePath) {
-    try {
-      await fs.unlink(filePath);
-      console.log(`File deleted successfully: ${filePath}`);
-      return true;
-    } catch (err) {
-      console.error(`Error deleting file: ${err}`);
-      return false;
+async function deleteFile(oldImagePath) {
+
+      if (fs.existsSync(oldImagePath)) {
+        fs.unlink(oldImagePath, (err) => {
+            if (err) {
+                console.error(`Error deleting old image: ${err}`);
+            } else {
+                console.log(`Successfully deleted old image: ${oldImagePath}`);
+            }
+        });
+    } else {
+        console.error(`Old image file does not exist: ${oldImagePath}`);
     }
+
   }
 
 
@@ -53,6 +58,8 @@ async function postProduct(req, res) {
 }
 
 
+
+
 async function updateProduct(req, res) {
     try {
         const { id } = req.params;
@@ -63,21 +70,17 @@ async function updateProduct(req, res) {
         }
         // If there's a new image, handle the old image deletion and update with the new one
         if (req.file) {
-            const oldImagePath = path.join( dirpath, product.image);
-            console.log(oldImagePath);
+            // Delete the old image file from the file system
 
-            deleteFile(oldImagePath).then(result => {
-                if (result) {
-                  console.log('File deletion was successful');
-                } else {
-                  console.log('File deletion failed');
-                }
-              });
+            const oldImagePath = path.join(__dirname, '..', '..', product.image);
+
+            console.log(`Old image path: ${oldImagePath}`);
+            
+            const out = deleteFile(oldImagePath)
 
             // Update the product data with the new image path
             productData.image = `/uploads/products/${req.file.filename}`;
         }
-
         // Update the product with new data
         const updatedProduct = await productModal.findByIdAndUpdate(id, productData, { new: true });
 
@@ -88,6 +91,45 @@ async function updateProduct(req, res) {
     }
 }
 
+
+
+// async function updateProduct (req, res) {
+//   try {
+//       const postId = req.params.id;
+//       if (!postId) {
+//           req.flash("error", "Invalid Post");
+//           return res.redirect("/admin/allposts")
+//       }
+//       const postExists = await post.findById(postId);
+//       if (!postExists) {
+//           req.flash("error", "Invalid Post Data");
+//           return res.redirect("/admin/allposts");
+//       }
+//       const thumbnailPath = path.join(__dirname, '..', '..', 'upload', 'products', postExists.thumbnail);
+//       if (fs.existsSync(thumbnailPath)) {
+//           fs.unlink(thumbnailPath, (err) => {
+//               if (err) {
+//                   console.log(err);
+//               }
+//           });
+//       } 
+//       else {
+//           console.error("Thumbnail file does not exist:");
+//       }
+//       const updatedData = await post.findByIdAndDelete(postId);
+//       if (!updatedData) {
+//           req.flash("error", "Error while deleting the post");
+//           return res.redirect("/admin/allposts");
+//       }
+//       req.flash("success", "Post deleted successfully");
+//       return res.redirect("/admin/allposts");
+//   } catch (error) {
+//       console.log(error);
+//       req.flash("error", "Internal server error");
+//       return res.redirect("/admin/dashboard");
+//   }
+// }
+
 async function deleteProduct(req, res) {
     try {
       const product = await productModal.findById(req.params.id);
@@ -96,9 +138,9 @@ async function deleteProduct(req, res) {
       }
   
       // Delete the image file from the file system
-      const imagePath = path.join(dirpath, product.image);
+      const imagePath = path.join(__dirname, '..', '..', product.image);
       const x = deleteFile(imagePath);
-        console.log(x);
+      console.log("sai",x);
       // Delete the product from the database
       await productModal.findByIdAndDelete(req.params.id);
   

@@ -58,15 +58,6 @@
         {{/each}}
     </div>
 
-    <script>
-        const editIcons = document.querySelectorAll('.edit-icon');
-
-        editIcons.forEach(icon => {
-            icon.addEventListener('click', event => {
-                const userId = event.target.getAttribute('data-id');
-                window.location.href = `http://localhost:8001/admin/edit/${userId}`;
-            });
-        });
-    </script>
+   
 </body>
 </html>

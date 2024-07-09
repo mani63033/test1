@@ -54,6 +54,18 @@ async function postProduct(req, res) {
       }
 }
 
+async function getProduct(req, res) {
+    try {
+        const product = await productModal.findById(req.params.id);
+        if (!product) {
+            return res.status(404).send('Product not found');
+        }
+        res.status(200).json(product);
+    } catch (err) {
+        console.error('Error in getProduct controller:', err);
+        res.status(500).send('Internal server error');
+    }
+}
 
 async function updateProduct(req, res) {
     try {
@@ -107,6 +119,7 @@ async function deleteProduct(req, res) {
 
 module.exports = {
     getProducts,
+    getProduct,
     postProduct,
     updateProduct,
     deleteProduct

@@ -19,6 +19,10 @@ productRouter.get('/', authenticateToken,(req, res) => {
     productController.getProducts(req, res);
 });
 
+productRouter.get('/:id', authenticateToken, (req, res) => {
+    productController.getProduct(req, res);
+});
+
 productRouter.post('/',authenticateToken, upload.single('image'), async (req, res) => {
     productController.postProduct(req, res);
 });

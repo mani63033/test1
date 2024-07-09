@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Handlebars Demo</title>
+
+    <style>
+        .card {
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 16px;
+            margin: 16px;
+            text-align: center;
+            background-color: #f9f9f9;
+			width: 300px;
+			display:'flex';
+        }
+		
+		.outcard{
+			display: flex;
+			flex-wrap: wrap;
+			justify-content: center;
+		}
+		.title{
+			text-align: center;
+		}
+~
+        .card h3 {
+            margin: 8px 0;
+        }
+        .icons {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        .icons i {
+            cursor: pointer;
+            font-size: 30px;
+        }
+  
+    </style>
+</head>
+<body>
+    <div id="user-cards"></div>
+    <h1 class="title">Users</h1>
+    <div class="outcard">
+        {{#each users}}
+        <div class="card">
+            <h2>{{this.name}}</h2>
+            <h3>{{this.email}}</h3>
+            <h3>{{this.phone}}</h3>
+            <div class="icons">
+                <i class="edit-icon" data-id="{{this.id}}">&#9998;</i>
+                <i class="delete-icon">&#128465;</i> 
+            </div>
+        </div>
+        {{/each}}
+    </div>
+
+    <script>
+        const editIcons = document.querySelectorAll('.edit-icon');
+
+        editIcons.forEach(icon => {
+            icon.addEventListener('click', event => {
+                const userId = event.target.getAttribute('data-id');
+                window.location.href = `http://localhost:8001/admin/edit/${userId}`;
+            });
+        });
+    </script>
+</body>
+</html>

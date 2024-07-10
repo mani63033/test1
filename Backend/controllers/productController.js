@@ -1,6 +1,7 @@
 const productModal = require('../models/product');
 const fs = require('fs');
 const path = require('path');
+const User = require('../models/users');
 
 const dirpath = "C:\\Users\\uppal\\OneDrive\\Desktop\\scutiades\\test1\\Backend";
 
@@ -116,11 +117,58 @@ async function deleteProduct(req, res) {
       res.status(500).send('Internal server error');
     }
   }
+  
+async function addToCart(req, res) {
+    try {
+        const productid = req.body.productid;
+        const userid = req.body.userid;   
+        const product = await productModal.findById(productid);
+        if (!product) {
+            return res.status(404).send('Product not found');
+        }
+        const user = await User.findById(userid);
+
+        if (!user) {
+            return res.status(404).send('User not found');
+        }
+        user.cart.push(productid);
+        await user.save();
+        res.status(200).send('Product added to cart successfully');
+
+    } catch (err) {
+        console.error('Error in addToCart controller:', err);
+        res.status(500).send('Internal server errorccc');
+    }
+}
+
+async function getCart(req, res) {
+    try {
+        const userid = req.params.id;
+        const user = await User.findById(userid).populate('cart');
+        if (!user) {
+            return res.status(404).send('User not found');
+        }   
+        ids = user.cart;
+        let products = [];
+        for (let i = 0; i < ids.length; i++) {
+            const product = await productModal.findById(ids[i]);
+            products.push(product);
+        }
+        res.status(200).json(products);
+    }
+    catch (err) {
+        console.error('Error in getCart controller:', err);
+        res.status(500).send('Internal server error');
+    }
+}
+
 
 module.exports = {
     getProducts,
     getProduct,
     postProduct,
     updateProduct,
-    deleteProduct
+    deleteProduct,
+    addToCart,
+    getCart
 };

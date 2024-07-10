@@ -16,7 +16,7 @@ async function getAllUsers(req, res) {
 
 async function getUser(req, res) {
     try {
-        const user = await User.findOne({ email: req.params.email });
+        const user = await User.findOne({ _id: req.params.id});
         if (!user) {
             return res.status(404).send('User not found');
         }

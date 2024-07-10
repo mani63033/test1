@@ -34,6 +34,12 @@ productRouter.put('/:id',upload.single('image'), async (req, res) => {
 productRouter.delete('/:id', authenticateToken, (req, res) => {
     productController.deleteProduct(req, res);
 });
+productRouter.post('/addcart', authenticateToken, (req, res) => {
+    productController.addToCart(req, res);
+});
+productRouter.get('/cart/:id', authenticateToken, (req, res) => {
+    productController.getCart(req, res);
+});
 
 productRouter.use('/uploads/products', express.static(path.join(__dirname, '../uploads/products')));
 

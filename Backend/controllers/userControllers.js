@@ -17,15 +17,8 @@ async function getAllUsers(req, res) {
 
 async function getUser(req, res) {
   try {
-    // Check if the session contains user data
-    if (!req.session.user || !req.session.user.id) {
-      return res.status(401).send('Unauthorized: No session available');
-    }
-
-    // Read the user ID from the session
-    const userId = req.session.user.id;
-
-    const user = await User.findOne({ _id: userId });
+    const userId = req.user.userId;
+    const user = await User.findById(userId);
     if (!user) {
       return res.status(404).send('User not found');
     }
@@ -64,7 +57,7 @@ async function postUser(req, res) {
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
 
-    const user = new User({name, phone, email, password: hashedPassword});
+    const user = new User({ name, phone, email, password: hashedPassword });
     await user.save();
     res.status(201).json(user);
   } catch (err) {
@@ -133,24 +126,13 @@ async function loginUser(req, res) {
     if (!user) {
       return res.status(404).json({ msg: 'User not found' });
     }
-    
+
     const validPassword = await bcrypt.compare(req.body.password, user.password);
     if (!validPassword) {
       return res.status(400).json({ msg: 'Invalid password' });
     }
 
     const secretKey = process.env.SECRET_KEY || 'saikirNani@123';
-
-    const token = jwt.sign({ userId: user._id, email: user.email }, secretKey, {
-      expiresIn: '2d' // expires in 2 days
-    });
-
-    // Store user data in the session
-    req.session.user = {
-      id: user._id,
-      email: user.email,
-      name: user.name
-    };
 
     res.status(200).json({ token, user });
   } catch (err) {

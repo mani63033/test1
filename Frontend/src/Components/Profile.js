@@ -13,7 +13,7 @@ const Profile = () => {
                 
                 const token = localStorage.getItem("authToken");
 
-                const response = await axios.get(`${Main_api}/user/one`, {
+                const response = await axios.get(`${Main_api}/user/one/`, {
                     headers: {
                         authorization: token
                     }

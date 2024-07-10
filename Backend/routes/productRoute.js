@@ -34,9 +34,11 @@ productRouter.put('/:id',upload.single('image'), async (req, res) => {
 productRouter.delete('/:id', (req, res) => {
     productController.deleteProduct(req, res);
 });
+
 productRouter.post('/addcart', (req, res) => {
     productController.addToCart(req, res);
 });
+
 productRouter.get('/cart/:id', (req, res) => {
     productController.getCart(req, res);
 });

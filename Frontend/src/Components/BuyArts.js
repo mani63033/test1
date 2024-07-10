@@ -64,7 +64,7 @@ const BuyArts = () => {
         <Link to={`/product/${item._id}`}>
           <img
             className="card-img-top"
-            src={`http://192.168.29.100:8001${item.image}`}
+            src={`${Main_api}${item.image}`}
             alt="Card image cap" style={{height:"300px"}}  /> </Link>
           <div className="card-body c-body">
             <h5 className="card-title">{item.name}</h5>

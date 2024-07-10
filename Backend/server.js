@@ -34,7 +34,7 @@ app.use(session({
     mongoUrl: 'mongodb+srv://uppalapatisaikiran27:20A25B0318@scutiarts.rifwbjg.mongodb.net/?retryWrites=true&w=majority&appName=scutiarts' // Replace with your MongoDB URL
   }),
   cookie: {
-    maxAge: 1000 * 60 * 60 * 24 * 2 // 2 days
+    maxAge: 1000 * 60 * 60 * 24 * 2 
   }
 }));
 

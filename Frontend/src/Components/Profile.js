@@ -10,10 +10,10 @@ const Profile = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                let userid = localStorage.getItem("userid");
+                
                 const token = localStorage.getItem("authToken");
 
-                const response = await axios.get(`${Main_api}/user/${userid}`, {
+                const response = await axios.get(`${Main_api}/user/one`, {
                     headers: {
                         authorization: token
                     }
@@ -22,7 +22,7 @@ const Profile = () => {
                 setData(response.data);
             } catch (error) {
                 console.error('Error fetching profile data:', error);
-                // Handle error state if needed
+                
             }
         };
 

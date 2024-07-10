@@ -10,7 +10,7 @@ userRouter.get('/',authenticateToken, (req, res) => {
     controller.getAllUsers(req, res);
 });
 
-userRouter.get('/:id',authenticateToken, (req, res) => {
+userRouter.get('/one',authenticateToken, (req, res) => {
     controller.getUser(req, res);
 });
 

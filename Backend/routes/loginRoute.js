@@ -4,8 +4,7 @@ const userRouter = express.Router();
 const controller = require('../controllers/userControllers');
 
 
-userRouter.post('/', (req, res) => {
-    controller.loginUser(req, res);
-});
+userRouter.post('/',
+    controller.loginUser);
 
 module.exports = userRouter;

@@ -6,8 +6,12 @@ const authenticateToken = require('../authenticateToken');
 
 const userRouter = express.Router();
 
-userRouter.get('/', (req, res) => {
+userRouter.get('/',authenticateToken, (req, res) => {
     controller.getAllUsers(req, res);
+});
+
+userRouter.get('/:id',authenticateToken, (req, res) => {
+    controller.getUser(req, res);
 });
 
 userRouter.post('/', (req, res) => {
@@ -21,6 +25,7 @@ userRouter.put('/:id',authenticateToken, (req, res) => {
 userRouter.delete('/:id',authenticateToken, (req, res) => {
     controller.deleteUser(req, res);
 });
+
 userRouter.get('/login', (req, res) => {
     controller.loginUser(req, res);
 });

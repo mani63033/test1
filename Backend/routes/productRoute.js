@@ -19,16 +19,26 @@ productRouter.get('/', authenticateToken,(req, res) => {
     productController.getProducts(req, res);
 });
 
+productRouter.get('/:id', authenticateToken, (req, res) => {
+    productController.getProduct(req, res);
+});
+
 productRouter.post('/',authenticateToken, upload.single('image'), async (req, res) => {
     productController.postProduct(req, res);
 });
 
-productRouter.put('/:id', (req, res) => {
+productRouter.put('/:id',upload.single('image'), async (req, res) => {
     productController.updateProduct(req, res);
 });
 
 productRouter.delete('/:id', authenticateToken, (req, res) => {
     productController.deleteProduct(req, res);
+});
+productRouter.post('/addcart', authenticateToken, (req, res) => {
+    productController.addToCart(req, res);
+});
+productRouter.get('/cart/:id', authenticateToken, (req, res) => {
+    productController.getCart(req, res);
 });
 
 productRouter.use('/uploads/products', express.static(path.join(__dirname, '../uploads/products')));

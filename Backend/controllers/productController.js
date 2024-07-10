@@ -1,6 +1,25 @@
 const productModal = require('../models/product');
 const fs = require('fs');
 const path = require('path');
+const User = require('../models/users');
+
+const dirpath = "C:\\Users\\uppal\\OneDrive\\Desktop\\scutiades\\test1\\Backend";
+
+async function deleteFile(oldImagePath) {
+
+      if (fs.existsSync(oldImagePath)) {
+        fs.unlink(oldImagePath, (err) => {
+            if (err) {
+                console.error(`Error deleting old image: ${err}`);
+            } else {
+                console.log(`Successfully deleted old image: ${oldImagePath}`);
+            }
+        });
+    } else {
+        console.error(`Old image file does not exist: ${oldImagePath}`);
+    }
+
+  }
 
 async function getProducts(req, res) {
     try {
@@ -36,32 +55,38 @@ async function postProduct(req, res) {
       }
 }
 
+async function getProduct(req, res) {
+    try {
+        const product = await productModal.findById(req.params.id);
+        if (!product) {
+            return res.status(404).send('Product not found');
+        }
+        res.status(200).json(product);
+    } catch (err) {
+        console.error('Error in getProduct controller:', err);
+        res.status(500).send('Internal server error');
+    }
+}
+
 async function updateProduct(req, res) {
     try {
         const { id } = req.params;
-        const productData = req.body;
-
-        // Find the product by ID
+        const productData = req.body;        
         const product = await productModal.findById(id);
         if (!product) {
             return res.status(404).send('Product not found');
         }
-
         // If there's a new image, handle the old image deletion and update with the new one
         if (req.file) {
-            const oldImagePath = path.join(__dirname, '../uploads/products', product.image);
+            // Delete the old image file from the file system
 
-            // Delete the old image file
-            fs.unlink(oldImagePath, (err) => {
-                if (err) {
-                    console.error('Error deleting old image:', err);
-                }
-            });
+            const oldImagePath = path.join(__dirname, '..', product.image);
+
+            console.log(deleteFile(oldImagePath));
 
             // Update the product data with the new image path
-            productData.image = req.file.filename;
+            productData.image = `/uploads/products/${req.file.filename}`;
         }
-
         // Update the product with new data
         const updatedProduct = await productModal.findByIdAndUpdate(id, productData, { new: true });
 
@@ -74,21 +99,76 @@ async function updateProduct(req, res) {
 
 async function deleteProduct(req, res) {
     try {
-        const product = await productModal.findByIdAndDelete(req.params.id);
+      const product = await productModal.findById(req.params.id);
+      if (!product) {
+        return res.status(404).send('Product not found');
+      }
+  
+      // Delete the image file from the file system
+      const imagePath = path.join(__dirname, '..', product.image);
+      const x = deleteFile(imagePath);
+      console.log("sai",x);
+      // Delete the product from the database
+      await productModal.findByIdAndDelete(req.params.id);
+  
+      res.status(200).json({ message: 'Product deleted successfully' });
+    } catch (err) {
+      console.error('Error in deleteProduct controller:', err);
+      res.status(500).send('Internal server error');
+    }
+  }
+  
+async function addToCart(req, res) {
+    try {
+        const productid = req.body.productid;
+        const userid = req.body.userid;   
+        const product = await productModal.findById(productid);
         if (!product) {
             return res.status(404).send('Product not found');
         }
-        res.status(200).json(product);
+        const user = await User.findById(userid);
+
+        if (!user) {
+            return res.status(404).send('User not found');
+        }
+        user.cart.push(productid);
+        await user.save();
+        res.status(200).send('Product added to cart successfully');
+
+    } catch (err) {
+        console.error('Error in addToCart controller:', err);
+        res.status(500).send('Internal server errorccc');
+    }
+}
+
+async function getCart(req, res) {
+    try {
+        const userid = req.params.id;
+        const user = await User.findById(userid).populate('cart');
+        if (!user) {
+            return res.status(404).send('User not found');
+        }   
+        ids = user.cart;
+        let products = [];
+        for (let i = 0; i < ids.length; i++) {
+            const product = await productModal.findById(ids[i]);
+            products.push(product);
+        }
+        res.status(200).json(products);
     }
     catch (err) {
-        console.error('Error in deleteProduct controller:', err);
+        console.error('Error in getCart controller:', err);
         res.status(500).send('Internal server error');
     }
 }
 
+
 module.exports = {
     getProducts,
+    getProduct,
     postProduct,
     updateProduct,
-    deleteProduct
+    deleteProduct,
+    addToCart,
+    getCart
 };

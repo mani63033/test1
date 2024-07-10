@@ -1,8 +1,10 @@
 const express = require('express');
 const os = require('os');
-const port = 8001;
+const hbs = require('hbs'); 
 const cors = require('cors');
 const path = require('path');
+
+const port = 8001;
 
 const app = express();
 
@@ -11,6 +13,10 @@ app.use(cors({
   credentials: true
 }));
 
+// Set the views directory
+app.set('views', path.join(__dirname, 'views')); 
+// Set the view engine to hbs
+app.set('view engine', 'hbs'); 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
@@ -18,10 +24,12 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 const userRouter = require('./routes/userRoute.js');
 const productRouter = require('./routes/productRoute.js');
 const loginRouter = require('./routes/loginRoute.js');
+const adminRouter = require('./routes/adminRoute.js');
 
 app.use('/user', userRouter);
 app.use('/login', loginRouter);
 app.use('/product', productRouter);
+app.use('/admin', adminRouter);
 
 // Function to get the local IP address
 function getLocalIPAddress() {

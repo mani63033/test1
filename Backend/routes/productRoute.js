@@ -3,7 +3,6 @@ const multer = require('multer');
 const path = require('path');
 const productController = require('../controllers/productController');
 const productRouter = express.Router();
-const authenticateToken = require('../authenticateToken');
 
 const storage = multer.diskStorage({
     destination: './uploads/products',

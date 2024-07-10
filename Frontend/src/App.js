@@ -7,6 +7,9 @@ import NavBar from "./Components/Nav";
 import Profile from "./Components/Profile";
 import Logout from "./Components/Logout";
 import Signin from "./Components/Signin";
+import Product from "./Components/product";
+import Buynow from "./Components/buynow";
+import Cart from "./Components/cart";
 const App = () => {
   return (
     <BrowserRouter>
@@ -19,6 +22,9 @@ const App = () => {
       <Route path="/profile" element={<Profile/>} />
       <Route path="/Logout" element={<Logout/>} />
       <Route path="/Signin" element={<Signin/>}/>
+      <Route path="/product/:id" element={<Product/>}/>
+      <Route path="/buynow" element={<Buynow/>}/>
+      <Route path="/cart" element={<Cart/>}/>
     </Routes>
     </div>
     </BrowserRouter>

@@ -2,7 +2,9 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import "./signin.css";
 import { Main_api } from '../apicalls/AllApiCalls';
+import { useNavigate } from 'react-router';
 const Signin = () => {
+  const navigate=useNavigate()
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -39,7 +41,7 @@ const Signin = () => {
       }
     )
    
- 
+    navigate("/login");
   };
 
   return (

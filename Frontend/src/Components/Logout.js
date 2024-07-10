@@ -5,7 +5,7 @@ const Logout=()=>
     {
         return(
             <>
-            <h3>Logout</h3>
+            <h3>Logout Successfully</h3>
             </>
         )
     }

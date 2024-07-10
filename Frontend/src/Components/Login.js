@@ -1,14 +1,15 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "./login.css";
 import { useState } from "react";
 import axios from "axios";
 import { Main_api } from "../apicalls/AllApiCalls";
+export var email="";
 function Login() {
+  const navigate=useNavigate();
   const [login, setLogin] = useState({
     email: "",
     password: ""
   });
-
   const change = (e) => {
     const { name, value } = e.target;
     setLogin({
@@ -24,8 +25,12 @@ function Login() {
       const response = await axios.post(`${Main_api}/login`, login);
       console.log('Data submitted successfully:', response.data);
       const token = response.data.token; 
+      console.log('Data submitted successfully:', response.data.user.email);
+      localStorage.setItem("userid",response.data.user._id);
+      email=response.data.user.email;
       localStorage.setItem('authToken', token);
-      console.log('Token saved:', localStorage.getItem('authToken'));
+      navigate("/");
+      window.location.reload();
     } catch (error) {
       console.error('Error submitting data:', error);
     }
@@ -33,7 +38,6 @@ function Login() {
       email: "",
       password: ""
     });
-  
   };
 
 

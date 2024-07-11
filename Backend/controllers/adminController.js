@@ -77,10 +77,22 @@ async function HomeSuperAdminPage(req, res) {
 
 
 async function getSuperUsers(req, res) {
-      const users = await user.find({});
+      const users = await user.find({
+            isAdmin: { $in: ['admin', 'user'] }
+      });
       res.render('users', { users });
       }
 
+async function adminupdatuser(req, res) {
+    const id = req.params.id;
+    const { name, email, phone,isAdmin } = req.body;
+    try {
+        const user = await user.findByIdAndUpdate(id, { name, email, phone,isAdmin });
+        res.status(200).json(user);
+    } catch (error) {
+        res.status(500).json({ message: 'Internal server error' });
+    }
+}
 
 
 module.exports = {
@@ -91,6 +103,7 @@ module.exports = {
       HomeAdminPage,
       getUsers,
       getSuperUsers,
+      adminupdatuser,
       getProfile,
       HomeSuperAdminPage
 }

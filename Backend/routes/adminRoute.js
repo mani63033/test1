@@ -15,6 +15,7 @@ router.get("/adminproducts",isAuth, userController.getProducts);
 router.get("/allusers",isAuth, userController.getUsers);
 router.get("/profile",isAuth, userController.getProfile);
 router.get('/superallusers',isAuth, userController.getSuperUsers);
+router.put('/adminupdatuser/:id',isAuth, userController.adminupdatuser);
 
 
 module.exports = router;

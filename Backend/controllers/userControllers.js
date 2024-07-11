@@ -1,7 +1,7 @@
 const User = require('../models/users.js');
 const bcrypt = require('bcrypt');
 const validate = require('../validations/commonValidations.js');
-const jwt = require('jsonwebtoken');
+const token = require('jsonwebtoken');
 const session = require('express-session');
 
 
@@ -16,7 +16,7 @@ async function getAllUsers(req, res) {
 }
 
 async function getUser(req, res) {
-  try {
+  try {  
     const userId = req.user.userId;
     const user = await User.findById(userId);
     if (!user) {
@@ -128,13 +128,20 @@ async function loginUser(req, res) {
     }
 
     const validPassword = await bcrypt.compare(req.body.password, user.password);
+
     if (!validPassword) {
       return res.status(400).json({ msg: 'Invalid password' });
     }
 
-    const secretKey = process.env.SECRET_KEY || 'saikirNani@123';
+    const key="saikirNani@123"
+    const tokens = token.sign(
+      { userId: user._id, isAdmin: user.isAdmin },
+      key,
+      { expiresIn: '1h' }
+    );
 
-    res.status(200).json({ token, user });
+    res.status(200).json({ tokens, user });
+
   } catch (err) {
     console.error('Error in login controller:', err);
     res.status(500).send('Internal server error');

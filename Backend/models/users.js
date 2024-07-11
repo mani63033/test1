@@ -17,6 +17,10 @@ const userSchema = new connection.Schema({
         type: Number,
         required: true
     },
+    isAdmin: {
+        type: String,
+        default: "user"
+    },
     cart: {
         type: Array,
         default: []

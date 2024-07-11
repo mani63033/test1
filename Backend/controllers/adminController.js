@@ -1,86 +1,61 @@
-const User = require('../models/users');
+const user = require('../models/users');
+const bcrypt = require('bcrypt');
+const session = require('express-session');
 
-async function getAllUsers(req, res) {
-    try {
-        const users = await User.find();
-        res.render('home', {
-            users: users
-        });
-    } catch (err) {
-        console.error('Error in getAllUsers controller:', err);
-        res.status(500).send('Internal server error');
-    }
+
+function loginAdmin(req, res) {
+      res.render('login',{title: "Admin Login"});
 }
 
-async function getUserById(req, res) {
+function logoutAdmin(req, res) {
+      req.session.destroy((err) => {
+            if(err) {
+                  return console.log(err);
+            }
+            res.redirect('/login');
+      });
+      }
+
+async function loginAdminPost(req, res) {
+    const { username, password } = req.body;
     try {
-        const user = await User.findById(req.params.id);
-        if (!user) {
-            return res.status(404).send('User not found');
+        const userdata = await user.findOne({ email: username });
+        if (userdata) {
+            const passwordMatch = await bcrypt.compare(password, userdata.password);
+            if (passwordMatch) {
+                req.session.user = userdata;
+                req.session.isAuth = true;
+                if (userdata.isAdmin === 'admin') {
+                    return res.redirect('/admin');
+                }
+                if (userdata.isAdmin === 'superadmin') {
+                    return res.redirect('/superadmin');
+                }
+            }
         }
-        res.status(200).json(user);
-    } catch (err) {
-        console.error('Error in getUserById controller:', err);
-        res.status(500).send('Internal server error');
-    }
-}
-
-async function postUser(req, res) {
-    try {
-        const user = new User({
-            name: req.body.name,
-            email: req.body.email,
-            password: req.body.password,
-            phone: req.body.phone
-        });
-        await user.save();
-        res.status(201).json(user);
-    } catch (err) {
-        console.error(err);
-        res.status(500).send('Error creating user');
+        console.log('Invalid username or password');
+        res.redirect('/login');
+    } catch (error) {      
+        console.log('Invalid username or password');
+        res.redirect('/login');
     }
 }
 
 
-async function updateUser(req, res) {
-    try {
-        const { id } = req.params;
-        const userData = req.body;
-        const user = await User.findById(id);
-        if (!user) {
-            return res.status(404).send('User not found');
-        }
-        await User.findByIdAndUpdate(id, userData);
-        res.status(200).send('User updated successfully');
-    } catch (err) {
-        console.error('Error in updateUser controller:', err);
-        res.status(500).send('Internal server error');
-    }
+function HomeAdminPage(req, res) {
+    res.render('admin',{title: "Admin Page"});
+}
+
+function HomeSuperAdminPage(req, res) {
+    res.render('superadmin',{title: "Super Admin Page"});
 }
 
 
-async function deleteUser(req, res) {
-    try {
-        const { id } = req.params;
-        const user = await User.findById(id);
-        if (!user) {
-            return res.status(404).send('User not found');
-        }
-        await User.findByIdAndDelete(id);
-        res.status(200).send('User deleted successfully');
-    }
-    catch (err) {
-        console.error('Error in deleteUser controller:', err);
-        res.status(500).send('Internal server error');
-    }
-}
 
 module.exports = {
-    getAllUsers
-    , getUserById
-    , postUser
-    , updateUser
-    , deleteUser
-
-};
-
+      loginAdmin,
+      logoutAdmin,
+      loginAdminPost,
+      HomeAdminPage,
+      HomeSuperAdminPage
+}

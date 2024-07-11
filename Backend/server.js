@@ -48,7 +48,7 @@ const adminRouter = require('./routes/adminRoute.js');
 app.use('/user', userRouter);
 app.use('/login', loginRouter);
 app.use('/product', authenticateToken, productRouter);
-app.use('/admin', adminRouter);
+app.use('/', adminRouter);
 
 // Function to get the local IP address
 function getLocalIPAddress() {

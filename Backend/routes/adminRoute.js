@@ -11,6 +11,10 @@ router.get('/logout', userController.logoutAdmin);
 router.post('/loginpost', userController.loginAdminPost);
 router.get('/admin',isAuth, userController.HomeAdminPage);
 router.get('/superadmin',isAuth, userController.HomeSuperAdminPage);
+router.get("/adminproducts",isAuth, userController.getProducts);
+router.get("/allusers",isAuth, userController.getUsers);
+router.get("/profile",isAuth, userController.getProfile);
+router.get('/superallusers',isAuth, userController.getSuperUsers);
 
 
 module.exports = router;

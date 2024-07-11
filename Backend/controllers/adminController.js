@@ -1,6 +1,7 @@
 const user = require('../models/users');
 const bcrypt = require('bcrypt');
 const session = require('express-session');
+const product = require('../models/product');
 
 
 function loginAdmin(req, res) {
@@ -41,14 +42,44 @@ async function loginAdminPost(req, res) {
     }
 }
 
+async function HomeAdminPage(req, res) {
+      const userName = req.session.user.name; 
+      const products = await product.find({}); 
+      const users = await user.find({ isAdmin: 'user' }); 
+      const productCount = products.length;
+      const userCount = users.length;
+      res.render('admin', { name: userName, products: productCount, users: userCount });
+  }
 
-function HomeAdminPage(req, res) {
-    res.render('admin',{title: "Admin Page"});
-}
+async function getProducts(req, res) {
+      const products = await product.find({});
+      res.render('products', { products });
+  }
+  
+async function getUsers(req, res) {
+      const users = await user.find({ isAdmin: 'user' });
+      res.render('users', { users });
+  }
 
-function HomeSuperAdminPage(req, res) {
-    res.render('superadmin',{title: "Super Admin Page"});
-}
+async function getProfile(req, res) {
+      const user = req.session.user;
+      res.render('profile', { user });
+  }
+
+async function HomeSuperAdminPage(req, res) {
+      const userName = req.session.user.name; 
+      const products = await product.find({}); 
+      const users = await user.find({}); 
+      const productCount = products.length;
+      const userCount = users.length;
+      res.render('superadmin', { name: userName, products: productCount, users: userCount });
+  }
+
+
+async function getSuperUsers(req, res) {
+      const users = await user.find({});
+      res.render('users', { users });
+      }
 
 
 
@@ -56,6 +87,10 @@ module.exports = {
       loginAdmin,
       logoutAdmin,
       loginAdminPost,
+      getProducts,
       HomeAdminPage,
+      getUsers,
+      getSuperUsers,
+      getProfile,
       HomeSuperAdminPage
 }

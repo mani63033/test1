@@ -15,7 +15,7 @@
             background-color: #f9f9f9; /* Light background color */
         }
         .navbar {
-            background: linear-gradient(to right, #5f90e4, #a07af1);
+            background: linear-gradient(to right, #32353b, #a07af1);
             color: white;
             padding: 15px;
             text-align: center;
@@ -27,7 +27,7 @@
             border-bottom: 1px solid rgba(0,0,0,0.1);
         }
         .sidebar {
-            background: linear-gradient(to right, #5f90e4, #a07af1);
+            background-color: #32353b;
             color: white;
             width: 200px;
             padding-top: 100px;
@@ -82,6 +82,50 @@
         .dashboard-item p {
             color: #666;
         }
+         /* Add some basic styling to the profile page */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+        }
+
+        /* Add some styling to the profile container */
+       .profile-container {
+            margin: 90px auto; /* Add auto to margin to center the container */
+            max-width: 400px;
+            padding: 20px;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Add some styling to the profile header */
+       .profile-header {
+            text-align: center;
+            background-color: #f0f0f0;
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        /* Add some styling to the profile information */
+       .profile-info {
+            padding: 20px;
+        }
+
+        /* Add some styling to the profile labels */
+       .profile-label {
+            font-weight: bold;
+            margin-right: 10px;
+        }
+
+        /* Add some styling to the logout link */
+       .logout-link {
+            text-decoration: none;
+            color: #337ab7;
+        }
+
+       .logout-link:hover {
+            color: #23527c;
+        }
         @media (max-width: 768px) {
             .sidebar {
                 width: 150px;
@@ -99,23 +143,25 @@
     </div>
     <div class="sidebar">
         
-        <b><a href="/admin">Dashboard</a></b>
+        <b><a href="/superadmin">Dashboard</a></b>
         <b><a href="/adminproducts">Products</a></b>
         <b><a href="/allusers">Users</a></b>
         <b><a href="/profile">Profile</a></b>
         <b><a href="/logout">Logout</a></b>
     </div>
     <div class="main">
-        <h2>Dashboard</h2>
-        <div class="dashboard-item">
-            <h2>Total users</h2>
-            <p>Number of users: {{users}}</p>
+        <div class="profile-container">
+        <div class="profile-header">
+            <h2>Profile</h2>
         </div>
-        <div class="dashboard-item">
-            <h2>Total Products</h2>
-            <p>Number of Products : {{products}}</p>
+        <div class="profile-info">
+            <p><span class="profile-label">Username:</span> {{user.name}}</p>
+            <p><span class="profile-label">Email:</span> {{user.email}}</p>
+            <p><span class="profile-label">Phone:</span> {{user.phone}}</p>
+            <p><span class="profile-label">Type:</span> {{user.isAdmin}}</p>
+            <a href="/logout" class="logout-link">Logout</a>
         </div>
-        <!-- Add more dashboard items as needed -->
+    </div>
     </div>
 </body>
 </html>

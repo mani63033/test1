@@ -15,7 +15,7 @@
             background-color: #f9f9f9; /* Light background color */
         }
         .navbar {
-            background: linear-gradient(to right, #5f90e4, #a07af1);
+            background: linear-gradient(to right, #32353b, #a07af1);
             color: white;
             padding: 15px;
             text-align: center;
@@ -27,7 +27,7 @@
             border-bottom: 1px solid rgba(0,0,0,0.1);
         }
         .sidebar {
-            background: linear-gradient(to right, #5f90e4, #a07af1);
+            background-color: #32353b;
             color: white;
             width: 200px;
             padding-top: 100px;
@@ -82,6 +82,60 @@
         .dashboard-item p {
             color: #666;
         }
+        .fir {
+            font-family: Arial, sans-serif;
+            border-collapse: collapse;
+            text-align: center;
+            margin: 20px auto; /* Add auto to margin to center the div */
+            align-items: center;
+        }
+        table {
+            font-family: Arial, sans-serif;
+            border-collapse: collapse;
+            width: 50%;
+            margin: 0 auto; /* Add auto to margin to center the table */
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: center; /* Center the text in the table cells */
+        }
+
+        th {
+            background-color: #f0f0f0;
+            text-align: center; /* Center the text in the table headers */
+        }
+
+        /* Add some styling to the buttons */
+       .btn {
+            background-color: #4CAF50;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+       .btn:hover {
+            background-color: #3e8e41;
+        }
+
+        /* Add some styling to the card */
+       .card {
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+            transition: 0.3s;
+            width: 100%;
+            margin-bottom: 20px;
+        }
+
+       .card:hover {
+            box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.4);
+        }
+
+       .card-body {
+            padding: 20px;
+        }
         @media (max-width: 768px) {
             .sidebar {
                 width: 150px;
@@ -99,23 +153,44 @@
     </div>
     <div class="sidebar">
         
-        <b><a href="/admin">Dashboard</a></b>
+        <b><a href="/superadmin">Dashboard</a></b>
         <b><a href="/adminproducts">Products</a></b>
         <b><a href="/allusers">Users</a></b>
         <b><a href="/profile">Profile</a></b>
         <b><a href="/logout">Logout</a></b>
     </div>
     <div class="main">
-        <h2>Dashboard</h2>
-        <div class="dashboard-item">
-            <h2>Total users</h2>
-            <p>Number of users: {{users}}</p>
-        </div>
-        <div class="dashboard-item">
-            <h2>Total Products</h2>
-            <p>Number of Products : {{products}}</p>
-        </div>
-        <!-- Add more dashboard items as needed -->
+       <div class="fir">
+    <h1>Users</h1>
+    <table>
+        <thead>
+            <tr>
+                <th style="text-align: center;">Name</th>
+                <th style="text-align: center;">Email</th>
+                <th style="text-align: center;">Phone</th>
+                <th style="text-align: center;">Type</th>
+                <th style="text-align: center;">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each users}}
+                <tr>
+                    <td>{{this.name}}</td>
+                    <td>{{this.email}}</td>
+                    <td>{{this.phone}}</td>
+                    <td>{{this.isAdmin}}</td>
+                    <td>
+                        <button class="btn" onclick="editUser('{{this._id}}')">Edit</button>
+                        <button class="btn" onclick="deleteUser('{{this._id}}')">Delete</button>
+                    </td>
+                </tr>
+            {{/each}}
+        </tbody>
+    </table>
+    </div>
     </div>
 </body>
 </html>
+
+
+
